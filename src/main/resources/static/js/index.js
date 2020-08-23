@@ -27,6 +27,8 @@ new Vue({
 			this.busca = event.target.value
 		},
 		detalhes(){
+			var self = this
+					
 			$.alert({
 				type: 'green',
 				title: this.title,
@@ -50,7 +52,45 @@ new Vue({
 			            btnClass: 'btn-warning',
 			            keys: ['enter'],
 			            action: function(){
-					
+							var filme = {};
+							
+							filme.title = self.title
+							filme.year = self.year
+							filme.release = self.release
+							filme.actors = self.actors
+							filme.awards = self.awards
+							filme.runtime = self.runtime
+							filme.language = self.language
+							filme.director = self.director
+							filme.genre = self.genre
+							filme.plot = self.plot
+							filme.poster = self.poster
+							filme.country = self.country
+							filme.production = self.production
+							filme.writer = self.writer
+			
+							console.log(filme)
+							$.ajax({
+								url: "/index/verificar/" + filme.title,
+								type: 'PUT'
+							}).done(function(e){
+								if(e == null) {
+									$.ajax({
+										url: "/index/favoritar",
+										type: "PUT",
+										dataType: "json",
+										contentType:'application/json',
+										data: JSON.stringify(filme)
+									}).done(function(e){
+										$.alert("Adicionado aos favoritos com sucesso!");
+									}).fail(function(e){
+										$.alert("Tente novamente!");
+									});
+								}else {
+									$.alert("Filme já adicionado aos favoritos!");
+								}
+							});
+							
 						}
 					},
 			        cancel: {
@@ -92,6 +132,47 @@ new Vue({
 				$.alert("Filme não encontrado!");
 			});
 			
+		},
+		favoritar(){
+			var filme = {};
+			
+			filme.title = this.title
+			filme.year = this.year
+			filme.release = this.release
+			filme.actors = this.actors
+			filme.awards = this.awards
+			filme.runtime = this.runtime
+			filme.language = this.language
+			filme.director = this.director
+			filme.genre = this.genre
+			filme.plot = this.plot
+			filme.poster = this.poster
+			filme.country = this.country
+			filme.production = this.production
+			filme.writer = this.writer
+
+			console.log(filme)
+			$.ajax({
+				url: "/index/verificar/" + this.title,
+				type: 'PUT'
+			}).done(function(e){
+				if(e == null) {
+					
+					$.ajax({
+						url: "/index/favoritar",
+						type: "PUT",
+						dataType: "json",
+						contentType:'application/json',
+						data: JSON.stringify(filme)
+					}).done(function(e){
+						$.alert("Adicionado aos favoritos com sucesso!");
+					}).fail(function(e){
+						$.alert("Tente novamente!");
+					});
+				}else {
+					$.alert("Filme já adicionado aos favoritos!");
+				}
+			});
 		}
 	}
 });
