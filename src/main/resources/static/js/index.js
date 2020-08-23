@@ -127,6 +127,7 @@ new Vue({
 					self.writer = event.Writer
 				}else {
 					$.alert("Nenhum titulo encontrado!");
+					$("#mostrar_filme").hide();
 				}
 			}).fail(function(){
 				$.alert("Filme não encontrado!");

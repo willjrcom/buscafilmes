@@ -18,16 +18,7 @@ body{
 	border: 1px solid black;
 	background-color: white;
 }
-@media (min-width: 992px){
-		.col-md-6 {
-		    width: 25%;
-		}
-}
 
-img{
-	width: 100%;
-	border: 1px solid black;
-}
 #mostrar_filme{
 	padding: 5vh;
 }
@@ -50,12 +41,24 @@ img{
 	.card{
 		width: 100%;
 	}	
+	
+	img{
+	float: left;
+	width: 50%;
+	border: 1px solid black;
+}
 }
 
 @media (min-width:769px){
 	.card{
 		width: 50vh;
 	}	
+	
+	img{
+	float: left;
+	max-width: 20vh;
+	border: 1px solid black;
+}
 }
 
 a {
