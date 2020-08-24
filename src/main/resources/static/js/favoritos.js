@@ -9,7 +9,7 @@ $.ajax({
 		linhaHtml += '<div class="card col-md-4">'
 						  +'<img class="card-img-top" src="' + e[i].poster + '" alt="Card image cap">'
 						  +'<div class="card-body">'
-						    +'<h5 class="card-title"><b>Title: </b>' + e[i].title + '</h5>'
+						    +'<h5 class="card-title"><b>&nbsp;Title: </b>' + e[i].title + '</h5>'
 						    +'<div class="row">'
 						    	+'<div class="col-md-6">'
 									+'<p><b>Year: </b>' + e[i].year + '</p>'
