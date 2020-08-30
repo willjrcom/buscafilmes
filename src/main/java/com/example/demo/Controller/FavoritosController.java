@@ -37,6 +37,13 @@ public class FavoritosController {
 		return favorito;
 	}
 	
+	@RequestMapping(value = "/curtir/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Favorito curtir(@ModelAttribute("id") Favorito favorito) {
+		favorito.setCurtir(favorito.getCurtir() + 1);
+		return favoritos.save(favorito);
+	}
+	
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public String remover(@ModelAttribute("id") Favorito favorito) {

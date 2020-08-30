@@ -6,13 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Service;
+
 @Entity
 @Table(name = "FAVORITOS")
+@Service
 public class Favorito {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private int curtir;
 	private String title;
 	private String year;
 	private String released;
@@ -140,6 +144,12 @@ public class Favorito {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	public int getCurtir() {
+		return curtir;
+	}
+	public void setCurtir(int curtir) {
+		this.curtir = curtir;
 	}
 	
 	

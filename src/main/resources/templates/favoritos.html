@@ -4,23 +4,39 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{/fragmento :: head}"></head>
-<head><title>Favoritos - Buscar filmes</title></head>
+<head><title>Favoritos - BuscaFilmes HD</title></head>
 
 <header th:replace="~{/fragmento :: header}"></header>
 
 <body>
+
+	<div id="fundo-externo">
+	    <div id="fundo">
+	        <img src="/img/filmeHD.jpg" alt="background-imagem" />
+	    </div>
+	</div>
+	
 	<div id="app" class="div_body">
 		<div>
 			<h1>{{ site }}</h1>
 			<hr>
 		</div>
 		
+		<div>
+			<label>Filtrar:</label >
+				<select name="filtro" onchange="filtro(this)">
+					<option value="CRESCENTE">Ordem Crescente</option>
+					<option value="DECRESCENTE">Ordem Decrescente</option>
+					<option value="CURTIDAS">Mais Curtidas</option>
+					<option value="DESCURTIDAS">Menos Curtidas</option>
+				</select>
+		</div>
 		<div id="mostrar_filme"></div>
 	</div>
-	
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-<script th:src="@{/js/favoritos.js}"></script>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script th:src="@{/js/favoritos.js}"></script>
 </body>
 
 <footer>

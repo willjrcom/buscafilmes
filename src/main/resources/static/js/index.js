@@ -1,10 +1,11 @@
-
+var todosFilmes = [];
 $("#detalhes").hide();
+$("#mostrar_filtro").hide();
 
 new Vue({
 	el: '#app',
 	data: {
-		site: 'BuscaFilmes.com',
+		site: 'BuscaFilmes HD',
 		busca: '',
 		title: '',
 		year: '',
@@ -67,8 +68,8 @@ new Vue({
 							filme.country = self.country
 							filme.production = self.production
 							filme.writer = self.writer
-			
-							console.log(filme)
+							filme.curtir = 0
+							
 							$.ajax({
 								url: "/index/verificar/" + filme.title,
 								type: 'PUT'
@@ -141,7 +142,7 @@ new Vue({
 			}).done(function(event){
 				if(event.Response != 'False') {
 					$("#mostrar_filme").show()
-					console.log(event)
+					$("#mostrar_filtro").hide();
 					
 					self.title = event.Title
 					self.year = event.Year
@@ -157,6 +158,11 @@ new Vue({
 					self.country = event.Country
 					self.production = event.Production
 					self.writer = event.Writer
+					
+					todosFilmes.push(event);
+					console.table(todosFilmes);
+					
+					mostrarTodos(todosFilmes);
 				}else {
 					$.alert({
 						type: 'red',
@@ -205,8 +211,8 @@ new Vue({
 			filme.country = this.country
 			filme.production = this.production
 			filme.writer = this.writer
-
-			console.log(filme)
+			filme.curtir = 0
+			
 			$.ajax({
 				url: "/index/verificar/" + this.title,
 				type: 'PUT'
@@ -264,3 +270,39 @@ new Vue({
 		}
 	}
 });
+
+function mostrarTodos(e) {
+	var linhaHtml = '';
+	
+	for(var i = 0; i<e.length; i++) {
+		linhaHtml +='<div class="container" align="center">'
+						+'<div class="card col-sm-4">'
+							+'<div class="borda">'
+							  +'<img class="card-img-top" :src="poster" alt="Card image cap">'
+							  
+							  +'<div class="card-body">'
+							  	+'<h4 class="card-title"><b>{{ title }}</b></h4>'
+							   
+							    +'<div class="row">'
+							    	+'<div class="col-md-6">'
+										+'<p class="card-text"><b>Year:</b> {{ year }}</p>'
+							    	+'</div>'
+							    	
+							    	+'<div class="col-md-6">'
+										+'<p class="card-text"><b>Runtime:</b> {{ runtime }}</p>'
+							    	+'</div>'
+							    +'</div>'
+							    
+								+'<div class="btn-group mr-2" role="group" aria-label="Second group">'
+							    	+'<button type="button" class="btn btn-warning" @click="favoritar">Adicionar aos favoritos</button>'
+							    	+'<button type="button" class="btn btn-primary" @click="detalhes">Detalhes</button>'
+							    +'</div>'
+							    
+							  +'</div>'
+							+'</div>'
+							+'<br>'
+						+'</div>'
+					+'</div>';
+	}
+	$("#mostrar_todos").html(linhaHtml);
+}

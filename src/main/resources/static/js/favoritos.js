@@ -1,3 +1,4 @@
+var todosFilmes;
 $("#mostrar_filme").show();
 
 //buscar filmes
@@ -5,7 +6,43 @@ $.ajax({
 	url: "/favoritos/mostrarTodos",
 	type: 'PUT'
 }).done(function(e){
-	console.table(e)
+	todosFilmes = e;
+	
+	todosFilmes.sort(function (a, b) {
+		return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
+	});
+	
+	mostrarTodos(todosFilmes);
+	
+});
+
+
+//--------------------------------------------------------------------------------------------------------
+function filtro(e) {
+	
+	if(e.value == "CRESCENTE") {
+		todosFilmes.sort(function (a, b) {
+			return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
+		});
+	}else if(e.value == "DECRESCENTE"){
+		todosFilmes.sort(function (a, b) {
+			return (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0);
+		});
+	}else if(e.value == "CURTIDAS"){
+		todosFilmes.sort(function (a, b) {
+			return (a.curtir < b.curtir) ? 1 : ((b.curtir < a.curtir) ? -1 : 0);
+		});
+	}else if(e.value == "DESCURTIDAS"){
+		todosFilmes.sort(function (a, b) {
+			return (a.curtir > b.curtir) ? 1 : ((b.curtir > a.curtir) ? -1 : 0);
+		});
+	}
+	mostrarTodos(todosFilmes);
+};
+
+
+//----------------------------------------------------------------------------------------------------------------
+function mostrarTodos(e) {
 	var linhaHtml = '<div class="row">';
 	for(var i = 0; i<e.length; i++) {
 		linhaHtml += '<div class="card">'
@@ -26,8 +63,12 @@ $.ajax({
 						    +'</div>'
 						    
 						    +'<p class="card-text"><b>Plot: </b>' + e[i].plot + '</p>'
-							+'<a class="card-link"><button class="btn btn-primary" onclick="detalhes()" value="' + e[i].id + '">Detalhes</button></a><br>'
-						  +'</div>'
+							+'<div class="btn-group mr-2" role="group" aria-label="Second group">'
+							    +'<button type="button" onclick="curtir()" class="btn btn-primary" value="' + e[i].id + '"><span class="oi oi-thumb-up"></span></button>'
+							    +'<button type="button" class="btn">' + e[i].curtir + '</button>'
+							    +'<button type="button" onclick="detalhes()" class="btn btn-primary" value="' + e[i].id + '">Detalhes</button>'
+							  +'</div>'	
+							+'</div>'
 						  +'</div>'
 						  +'<br>'
 						  +'</div>'
@@ -35,9 +76,22 @@ $.ajax({
 	}
 	linhaHtml += '</div>';
 	$("#mostrar_filme").html(linhaHtml);
-});
+}
 
 
+//---------------------------------------------------------------------------------------
+function curtir(){
+	var botaoReceber = $(event.currentTarget);
+	var id = botaoReceber.attr('value');
+	
+	$.ajax({
+		url: "/favoritos/curtir/" + id,
+		type: 'PUT'
+	}).done(function(e){
+		window.location="/favoritos";
+	});
+	
+}
 //---------------------------------------------------------------------------------------
 function detalhes(){
 	var botaoReceber = $(event.currentTarget);

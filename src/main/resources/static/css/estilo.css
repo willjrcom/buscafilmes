@@ -7,7 +7,6 @@
 
 body{
 	background-color: #333;
-  	height:100%;
 }
 
 #mostrar_filme{
@@ -19,7 +18,7 @@ body{
 	border: 1px solid black;
 }
 
-h1, h3{
+h1, h3, label{
 	color:white;
 }
 
@@ -47,7 +46,7 @@ p{
 	
 	img{
 		border: 1px solid black;
-		max-height: 40vh;
+		max-height: 70vh;
 	}
 	
 	.div_body{
@@ -115,4 +114,24 @@ h1{
 footer{
 	background-color: #333;
 	margin-bottom: 0;
+}
+
+#fundo-externo {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index:-1;
+}
+
+#fundo {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#fundo img {
+	filter: opacity(30%);
+	width: 100%;
+    position: absolute;
 }
