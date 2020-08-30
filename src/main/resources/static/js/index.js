@@ -1,5 +1,4 @@
 
-$("#mostrar_filme").hide();
 $("#detalhes").hide();
 
 new Vue({
@@ -82,12 +81,45 @@ new Vue({
 										contentType:'application/json',
 										data: JSON.stringify(filme)
 									}).done(function(e){
-										$.alert("Adicionado aos favoritos com sucesso!");
+										$.alert({
+											type: 'green',
+											title: 'Parabéns',
+											content: "Adicionado aos favoritos com sucesso!",
+											buttons: {
+												confirm:{
+													text: 'Voltar',
+													btnClass: 'btn-green',
+													keys: ['esc', 'enter']
+												}
+											}
+										});
 									}).fail(function(e){
-										$.alert("Tente novamente!");
+										$.alert({
+											type: 'red',
+											title: 'OPS...',
+											content: "Tente novamente!",
+											buttons: {
+												confirm:{
+													text: 'Voltar',
+													btnClass: 'btn-red',
+													keys: ['esc', 'enter']
+												}
+											}
+										});
 									});
 								}else {
-									$.alert("Filme já adicionado aos favoritos!");
+									$.alert({
+										type: 'red',
+										title: 'OPS...',
+										content: "Filme já adicionado aos favoritos!",
+										buttons: {
+											confirm:{
+												text: 'Voltar',
+												btnClass: 'btn-red',
+												keys: ['esc', 'enter']
+											}
+										}
+									});
 								}
 							});
 							
@@ -126,11 +158,33 @@ new Vue({
 					self.production = event.Production
 					self.writer = event.Writer
 				}else {
-					$.alert("Nenhum titulo encontrado!");
+					$.alert({
+						type: 'red',
+						title: 'OPS...',
+						content: "Nenhum titulo encontrado!",
+						buttons: {
+							confirm:{
+								text: 'Voltar',
+								btnClass: 'btn-red',
+								keys: ['esc', 'enter']
+							}
+						}
+					});
 					$("#mostrar_filme").hide();
 				}
 			}).fail(function(){
-				$.alert("Filme não encontrado!");
+				$.alert({
+					type: 'red',
+					title: 'OPS...',
+					content: "Nenhum titulo encontrado!",
+					buttons: {
+						confirm:{
+							text: 'Voltar',
+							btnClass: 'btn-red',
+							keys: ['esc', 'enter']
+						}
+					}
+				});
 			});
 			
 		},
@@ -166,56 +220,47 @@ new Vue({
 						contentType:'application/json',
 						data: JSON.stringify(filme)
 					}).done(function(e){
-						$.alert("Adicionado aos favoritos com sucesso!");
+						$.alert({
+							type: 'green',
+							title: 'Parabéns',
+							content: "Adicionado aos favoritos com sucesso!",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-green',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
 					}).fail(function(e){
-						$.alert("Tente novamente!");
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Tente novamente!",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-red',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
 					});
 				}else {
-					$.alert("Filme já adicionado aos favoritos!");
+					$.alert({
+						type: 'red',
+						title: 'OPS...',
+						content: "Filme já adicionado aos favoritos!",
+						buttons: {
+							confirm:{
+								text: 'Voltar',
+								btnClass: 'btn-red',
+								keys: ['esc', 'enter']
+							}
+						}
+					});
 				}
 			});
 		}
 	}
 });
-
-/*
-
-<input type="text" v-on:input="alterarTitulo"/><!-- escrever em tempo real -->
-<p v-once>{{ titulo }}</p><!-- o treco não se atualiza após ser utilizado -->
-<p >{{ titulo }}</p><!-- o treco não se atualiza após ser utilizado -->
-<a v-bind:href="link">google</a><!-- acessar link -->
-<p v-html="linkHtml"></p><!-- receber o html -->
-<p>{{ saudacao() }}</p>
-<p v-on:mousemove="atualizarXY">Mouse: {{ x }} e {{ y }}</p>
-<p>{{ contador % 2 == 0 ? contador * 2 : contador}}</p>
-<button v-on:click="somar">Somar</button>
-
-new Vue({
-el: '#app',
-data:{
-	titulo: 'ola',
-	link: 'https://www.google.com.br',
-	linkHtml: '<a href="https://www.google.com.br">Link</a>',
-	contador: 0,
-	x: 0,
-	y: 0
-},
-methods: {
-	  alterarTitulo(event){
-		  this.titulo = event.target.value
-	  }
-	saudacao: function(){
-		return 'Bom dia!'
-	},
-	 alterarTitulo(event){
-		  this.titulo = event.target.value
-	},
-	atualizarXY(event){
-		this.x = event.clientX
-		this.y = event.clientY
-	},
-	somar(){
-		this.contador++
-	},
-}
-})*/

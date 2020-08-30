@@ -1,3 +1,5 @@
+$("#mostrar_filme").show();
+
 //buscar filmes
 $.ajax({
 	url: "/favoritos/mostrarTodos",
@@ -6,25 +8,30 @@ $.ajax({
 	console.table(e)
 	var linhaHtml = '<div class="row">';
 	for(var i = 0; i<e.length; i++) {
-		linhaHtml += '<div class="card col-md-4">'
-						  +'<img class="card-img-top" src="' + e[i].poster + '" alt="Card image cap">'
-						  +'<div class="card-body">'
-						    +'<h5 class="card-title"><b>&nbsp;Title: </b>' + e[i].title + '</h5>'
+		linhaHtml += '<div class="card">'
+						+'<div class="borda">'
+						+'<div class="row">'
+						  +'<div class="container col-md-2">'
+						  +'<img class="card-img-top" src="' + e[i].poster + '" alt="Card image cap"></div>'
+						  +'<div class="card-body col-md-10">'
+						    +'<h5 class="card-title"><b>Title: </b>' + e[i].title + '</h5>'
 						    +'<div class="row">'
 						    	+'<div class="col-md-6">'
-									+'<p><b>Year: </b>' + e[i].year + '</p>'
+									+'<p class="card-text"><b>Year: </b>' + e[i].year + '</p>'
 						    	+'</div>'
 						    	
 						    	+'<div class="col-md-6">'
-									+'<p><b>Runtime: </b>' + e[i].runtime + '</p>'
+									+'<p class="card-text"><b>Runtime: </b>' + e[i].runtime + '</p>'
 						    	+'</div>'
 						    +'</div>'
 						    
-						    +'<p class="card-text" rows="1"><b>Plot: </b>' + e[i].plot + '</p>'
-
-							+'<a><button class="btn btn-primary" onclick="detalhes()" value="' + e[i].id + '">Detalhes</button></a><br>'
+						    +'<p class="card-text"><b>Plot: </b>' + e[i].plot + '</p>'
+							+'<a class="card-link"><button class="btn btn-primary" onclick="detalhes()" value="' + e[i].id + '">Detalhes</button></a><br>'
 						  +'</div>'
-					+'</div>';
+						  +'</div>'
+						  +'<br>'
+						  +'</div>'
+					+'</div><br>';
 	}
 	linhaHtml += '</div>';
 	$("#mostrar_filme").html(linhaHtml);
@@ -68,7 +75,18 @@ function detalhes(){
 						}).done(function(){
 								window.location.reload();
 						}).fail(function(){
-							$.alert("OPS... Tente novamente!");
+							$.alert({
+								type: 'red',
+								title: 'OPS...',
+								content: "Tente novamente!",
+								buttons: {
+									confirm:{
+										text: 'Voltar',
+										btnClass: 'btn-red',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
 						})
 					}
 				},
@@ -80,7 +98,18 @@ function detalhes(){
 			}
 		});
 	}).fail(function(){
-		$.alert("Detalhes não disponível!");
+		$.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: "Detalhes não disponível!",
+			buttons: {
+				confirm:{
+					text: 'Voltar',
+					btnClass: 'btn-red',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	});
 }
 
@@ -147,45 +176,3 @@ new Vue({
 		},
 	}
 });
-
-/*
-
-<input type="text" v-on:input="alterarTitulo"/><!-- escrever em tempo real -->
-<p v-once>{{ titulo }}</p><!-- o treco não se atualiza após ser utilizado -->
-<p >{{ titulo }}</p><!-- o treco não se atualiza após ser utilizado -->
-<a v-bind:href="link">google</a><!-- acessar link -->
-<p v-html="linkHtml"></p><!-- receber o html -->
-<p>{{ saudacao() }}</p>
-<p v-on:mousemove="atualizarXY">Mouse: {{ x }} e {{ y }}</p>
-<p>{{ contador % 2 == 0 ? contador * 2 : contador}}</p>
-<button v-on:click="somar">Somar</button>
-
-new Vue({
-el: '#app',
-data:{
-	titulo: 'ola',
-	link: 'https://www.google.com.br',
-	linkHtml: '<a href="https://www.google.com.br">Link</a>',
-	contador: 0,
-	x: 0,
-	y: 0
-},
-methods: {
-	  alterarTitulo(event){
-		  this.titulo = event.target.value
-	  }
-	saudacao: function(){
-		return 'Bom dia!'
-	},
-	 alterarTitulo(event){
-		  this.titulo = event.target.value
-	},
-	atualizarXY(event){
-		this.x = event.clientX
-		this.y = event.clientY
-	},
-	somar(){
-		this.contador++
-	},
-}
-})*/
