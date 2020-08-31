@@ -1,25 +1,35 @@
 var todosFilmes;
+var filtros;
 $("#mostrar_filme").show();
 
-//buscar filmes
-$.ajax({
-	url: "/favoritos/mostrarTodos",
-	type: 'PUT'
-}).done(function(e){
-	todosFilmes = e;
-	
-	todosFilmes.sort(function (a, b) {
-		return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
-	});
-	
-	mostrarTodos(todosFilmes);
-	
+
+new Vue({
+	el: '#app',
+	data: {
+		site: 'Meus Favoritos',
+	}
 });
 
 
 //--------------------------------------------------------------------------------------------------------
+function buscar() {
+	//funcao buscar filmes
+	$.ajax({
+		url: "/favoritos/mostrarTodos",
+		type: 'PUT'
+	}).done(function(e){
+		todosFilmes = e;
+		todosFilmes.sort(function (a, b) {
+			return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
+		});
+		mostrarTodos(todosFilmes);
+	});
+}
+buscar();
+
+//--------------------------------------------------------------------------------------------------------
 function filtro(e) {
-	
+	filtros = e.value;
 	if(e.value == "CRESCENTE") {
 		todosFilmes.sort(function (a, b) {
 			return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);
@@ -88,7 +98,7 @@ function curtir(){
 		url: "/favoritos/curtir/" + id,
 		type: 'PUT'
 	}).done(function(e){
-		window.location="/favoritos";
+		buscar();
 	});
 	
 }
@@ -119,7 +129,7 @@ function detalhes(){
 				"<p><b>Plot:</b> " + e.plot  + "</p>",
 			buttons: {
 		        confirm: {
-		            text: 'Remover dos Favoritos',
+		            text: '<span class="oi oi-star"></span> Remover dos Favoritos',
 		            btnClass: 'btn-danger',
 		            keys: ['enter'],
 		            action: function(){
@@ -166,67 +176,3 @@ function detalhes(){
 		});
 	});
 }
-
-
-new Vue({
-	el: '#app',
-	data: {
-		site: 'Meus Favoritos',
-		filmes: {}
-	},
-	methods: {
-		detalhes(){
-			var self = this
-					
-			$.alert({
-				type: 'green',
-				title: this.title,
-				content: 
-						"<p><b>Title:</b> " + this.title  + "</p>\r\n" + 
-						"<p><b>Year:</b> " + this.year  + "</p>\r\n" + 
-						"<p><b>Release:</b> " + this.release  + "</p>\r\n" + 
-						"<p><b>Actors:</b> " + this.actors  + "</p>\r\n" + 
-						"<p><b>Awards:</b> " + this.awards  + "</p>\r\n" + 
-						"<p><b>Runtime:</b> " + this.runtime  + "</p>\r\n" + 
-						"<p><b>Language:</b> " + this.language  + "</p>\r\n" + 
-						"<p><b>Director:</b> " + this.director  + "</p>\r\n" + 
-						"<p><b>Genre:</b> " + this.genre  + "</p>\r\n" + 
-						"<p><b>Country:</b> " + this.country  + "</p>\r\n" + 
-						"<p><b>Production:</b> " + this.production  + "</p>\r\n" + 
-						"<p><b>Writer:</b> " + this.writer  + "</p>\r\n" + 
-						"<p><b>Plot:</b> " + this.plot  + "</p>",
-				buttons: {
-			        confirm: {
-			            text: 'Adicionar aos Favoritos',
-			            btnClass: 'btn-warning',
-			            keys: ['enter'],
-			            action: function(){
-							var filme = {};
-							
-							filme.title = self.title
-							filme.year = self.year
-							filme.release = self.release
-							filme.actors = self.actors
-							filme.awards = self.awards
-							filme.runtime = self.runtime
-							filme.language = self.language
-							filme.director = self.director
-							filme.genre = self.genre
-							filme.plot = self.plot
-							filme.poster = self.poster
-							filme.country = self.country
-							filme.production = self.production
-							filme.writer = self.writer
-							
-						}
-					},
-			        cancel: {
-			            text: 'Voltar',
-			            btnClass: 'btn-red',
-			            keys: ['esc']
-					}
-				}
-			});
-		},
-	}
-});

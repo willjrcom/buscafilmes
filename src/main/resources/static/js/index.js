@@ -1,4 +1,4 @@
-var todosFilmes = [];
+
 $("#detalhes").hide();
 $("#mostrar_filtro").hide();
 
@@ -159,10 +159,6 @@ new Vue({
 					self.production = event.Production
 					self.writer = event.Writer
 					
-					todosFilmes.push(event);
-					console.table(todosFilmes);
-					
-					mostrarTodos(todosFilmes);
 				}else {
 					$.alert({
 						type: 'red',
